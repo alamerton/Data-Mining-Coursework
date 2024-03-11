@@ -1,23 +1,27 @@
+import pandas as pd
+import numpy as np
+
 
 # Part 1: Decision Trees with Categorical Attributes
 
 # Return a pandas dataframe with data set to be mined.
 # data_file will be populated with a string 
 # corresponding to a path to the adult.csv file.
+
 def read_csv_1(data_file):
-	pass
+	return pd.read_csv(data_file)
 
 # Return the number of rows in the pandas dataframe df.
 def num_rows(df):
-	pass
+	return len(df)
 
 # Return a list with the column names in the pandas dataframe df.
 def column_names(df):
-	pass
+	return list(df.columns)
 
 # Return the number of missing values in the pandas dataframe df.
 def missing_values(df):
-	pass
+	return df.isnull().sum()
 
 # Return a list with the columns names containing at least one missing value in the pandas dataframe df.
 def columns_with_missing_values(df):
@@ -60,4 +64,18 @@ def dt_error_rate(y_pred, y_true):
 	pass
 
 
+path = "data/adult.csv"
 
+df = read_csv_1(path)
+
+# Drop 'fnlwgt' attribute
+
+df = df.drop(columns=['fnlwgt'])
+
+print(f"1. Load the data set: {df.shape}")
+
+print(f"a) Compute number of instances: {num_rows(df)}")
+
+print(f"b) Compute list with attribute names: {column_names(df)}")
+
+print(f"c) Compute the number of missing attribute values:\n{missing_values(df)}")
