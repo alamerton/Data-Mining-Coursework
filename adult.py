@@ -43,7 +43,8 @@ def bachelors_masters_percentage(df):
 # Return a pandas dataframe (new copy) obtained from the pandas dataframe df 
 # by removing all instances with at least one missing value.
 def data_frame_without_missing_values(df):
-	pass
+	df.dropna()
+	return df
 
 # Return a pandas dataframe (new copy) from the pandas dataframe df 
 # by converting the df categorical attributes to numeric using one-hot encoding.
@@ -89,3 +90,6 @@ print(f"c) Compute the number of missing attribute values: {missing_values(df)}"
 print(f"d) Return a list with the columns names containing at least one missing value in the pandas dataframe df: {columns_with_missing_values(df)}")
 
 print(f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
+
+print(f"2. Drop all instances with missing values: {data_frame_without_missing_values(df).shape}")
+
