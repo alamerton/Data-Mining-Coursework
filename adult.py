@@ -42,16 +42,17 @@ def bachelors_masters_percentage(df):
 # Return a pandas dataframe (new copy) obtained from the pandas dataframe df 
 # by removing all instances with at least one missing value.
 def data_frame_without_missing_values(df):
-	df.dropna()
+	df.dropna() # TODO: check this is doing what I mean
 	return df
 
 # Return a pandas dataframe (new copy) from the pandas dataframe df 
 # by converting the df categorical attributes to numeric using one-hot encoding.
 # The function's output should not contain the target attribute.
 def one_hot_encoding(df):
-	# convert all categorical attributes (those which are not numeric by default) to numeric using one-hot encoding
-	encoded_columns
-	return encoded_columns
+	# identify categorical columns (all but education num), used a fun way might not be best @TODO
+	categorical_columns = list(df.loc[:, df.columns != 'education-num'].columns)
+	encoded_columns_df = pd.get_dummies(df, columns=categorical_columns)
+	return encoded_columns_df
 
 # Return a pandas series (new copy), from the pandas dataframe df, 
 # containing only one column with the labels of the df instances
@@ -93,7 +94,9 @@ print(f"d) Return a list with the columns names containing at least one missing 
 print(f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
 
 df = data_frame_without_missing_values(df)
+
 print(f"2.1 Drop all instances with missing values: {df.shape}")
 
 one_hot_df = one_hot_encoding(df)
+
 print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
