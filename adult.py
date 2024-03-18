@@ -21,7 +21,6 @@ def column_names(df):
 
 # Return the number of missing values in the pandas dataframe df.
 def missing_values(df):
-	# needs to sum them
 	return df.isnull().sum().sum()
 
 # Return a list with the columns names containing at least one missing value in the pandas dataframe df.
@@ -50,7 +49,9 @@ def data_frame_without_missing_values(df):
 # by converting the df categorical attributes to numeric using one-hot encoding.
 # The function's output should not contain the target attribute.
 def one_hot_encoding(df):
-	pass
+	# convert all categorical attributes (those which are not numeric by default) to numeric using one-hot encoding
+	encoded_columns
+	return encoded_columns
 
 # Return a pandas series (new copy), from the pandas dataframe df, 
 # containing only one column with the labels of the df instances
@@ -77,7 +78,7 @@ df = read_csv_1(path)
 
 # Drop 'fnlwgt' attribute
 
-df = df.drop(columns=['fnlwgt'])
+df = df.drop(columns=['fnlwgt']) # TODO: why am I doing this again?
 
 print(f"1. Load the data set: {df.shape}")
 
@@ -91,5 +92,8 @@ print(f"d) Return a list with the columns names containing at least one missing 
 
 print(f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
 
-print(f"2. Drop all instances with missing values: {data_frame_without_missing_values(df).shape}")
+df = data_frame_without_missing_values(df)
+print(f"2.1 Drop all instances with missing values: {df.shape}")
 
+one_hot_df = one_hot_encoding(df)
+print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
