@@ -35,7 +35,10 @@ def columns_with_missing_values(df):
 # in the pandas dataframe df containing the data set in the adult.csv file.
 # For example, if the percentage is 21.547%, then the function should return 21.6.
 def bachelors_masters_percentage(df):
-	pass
+	total_bachelors = df['education'].value_counts()['Bachelors']
+	total_masters = df['education'].value_counts()['Masters']
+	percentage = round(((total_bachelors + total_masters)/len(df) * 100), 1)
+	return percentage
 
 # Return a pandas dataframe (new copy) obtained from the pandas dataframe df 
 # by removing all instances with at least one missing value.
@@ -79,8 +82,10 @@ print(f"1. Load the data set: {df.shape}")
 
 print(f"a) Compute number of instances: {num_rows(df)}")
 
-print(f"b) Compute list with attribute names: {column_names(df)}")
+print(f"b) Compute list with attribute names: \n{column_names(df)}")
 
-print(f"c) Compute the number of missing attribute values:\n{missing_values(df)}")
+print(f"c) Compute the number of missing attribute values: {missing_values(df)}")
 
-print(f"d) Return a list with the columns names containing at least one missing value in the pandas dataframe df:\n{columns_with_missing_values(df)}")
+print(f"d) Return a list with the columns names containing at least one missing value in the pandas dataframe df: {columns_with_missing_values(df)}")
+
+print(f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
