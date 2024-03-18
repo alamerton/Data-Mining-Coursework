@@ -21,11 +21,14 @@ def column_names(df):
 
 # Return the number of missing values in the pandas dataframe df.
 def missing_values(df):
-	return df.isnull().sum()
+	# needs to sum them
+	return df.isnull().sum().sum()
 
 # Return a list with the columns names containing at least one missing value in the pandas dataframe df.
 def columns_with_missing_values(df):
-	pass
+	missing_values = df.isnull().any()
+	column_list = list(df.columns[missing_values])
+	return column_list	
 
 # Return the percentage of instances corresponding to persons whose education level is 
 # Bachelors or Masters (by rounding to the first decimal digit)
@@ -79,3 +82,5 @@ print(f"a) Compute number of instances: {num_rows(df)}")
 print(f"b) Compute list with attribute names: {column_names(df)}")
 
 print(f"c) Compute the number of missing attribute values:\n{missing_values(df)}")
+
+print(f"d) Return a list with the columns names containing at least one missing value in the pandas dataframe df:\n{columns_with_missing_values(df)}")
