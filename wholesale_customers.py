@@ -1,5 +1,6 @@
 import pandas as pd
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, kmeans_plusplus
+
 
 # Part 2: Cluster Analysis
 
@@ -39,8 +40,10 @@ def kmeans(df, k):
 # specifying an assignment of instances to clusters, using kmeans++.
 # y should contain values from the set {0,1,...,k-1}.
 def kmeans_plus(df, k):
-
-	pass
+	kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0)
+	kmeans.fit(df)
+	y = pd.Series(kmeans.labels_)
+	return y
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
 # specifying an assignment of instances to clusters, using agglomerative hierarchical clustering.
@@ -89,3 +92,5 @@ print(f"2.1. Return standardised dataframe: {standardize(df)}")
 k = 5
 
 print(f"2.2. Kmeans: \n{kmeans(df, k)}")
+
+print(f"2.3. Kmeans++: \n{kmeans_plus(df, k)}")
