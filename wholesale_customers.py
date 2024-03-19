@@ -14,16 +14,15 @@ def read_csv_2(data_file):
 # These strings index the new dataframe columns. 
 # Each row should correspond to an attribute in the original data and be indexed with the attribute name.
 def summary_statistics(df):
-	summary = df.describe()
-	summary = summary.drop(['count', '25%', '50%', '75%'])
-	transposed_summary = summary.T
-	return transposed_summary
+	summary = df.describe().drop(['count', '25%', '50%', '75%']).T
+	return summary
 
 # Given a dataframe df with numeric values, return a dataframe (new copy)
 # where each attribute value is subtracted by the mean and then divided by the
 # standard deviation for that attribute.
 def standardize(df):
-	pass
+	standardised_df = (df - df.mean()) / df.std()
+	return standardised_df
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
 # specifying an assignment of instances to clusters, using kmeans.
@@ -77,6 +76,8 @@ path = "data/wholesale_customers.csv"
 
 df = read_csv_2(path)
 
-print(f"0. Data pre-processing: {df.head, df.shape}")
+print(f"0. Data pre-processing: \n{df.head, df.shape}")
 
 print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
+
+print(f"2.1. Return standardised dataframe: {standardize(df)}")
