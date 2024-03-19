@@ -123,3 +123,7 @@ print(f"3.1 Build a decision tree: {y_pred}")
 error = dt_error_rate(y_pred, label_encoded_classes)
 
 print(f"3.2 Compute the training error rate of the resulting tree: {error}")
+
+# TODO: I think there's something I'm missing here where I've plugged the wrong values in or something.
+# Of course it always has an error rate of zero, it's predicting the same labels it was trained on.
+# What am I not seeing?
