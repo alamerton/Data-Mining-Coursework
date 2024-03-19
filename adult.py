@@ -63,9 +63,7 @@ def one_hot_encoding(df):
 # containing only one column with the labels of the df instances
 # converted to numeric using label encoding. 
 def label_encoding(df):
-	# save the class column as a series
 	class_as_series = pd.Series(df['class'])
-	# label encode the new series
 	label_encoder = LabelEncoder()
 	encoded_series = label_encoder.fit_transform(class_as_series)
 	return encoded_series
@@ -116,3 +114,9 @@ print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one
 
 label_encoded_classes = label_encoding(df)
 print(f"2.3 Convert the class values to numeric with label encoding: {label_encoded_classes.shape, label_encoded_classes}")
+
+y_pred = dt_predict(one_hot_df, label_encoded_classes)
+print(f"3.1 Build a decision tree: {y_pred}")
+
+error = dt_error_rate(y_pred, label_encoded_classes)
+print(f"3.2 Compute the training error rate of the resulting tree: {error}")
