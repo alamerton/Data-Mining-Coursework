@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.cluster import KMeans, kmeans_plusplus
+from sklearn.cluster import KMeans, AgglomerativeClustering
 
 
 # Part 2: Cluster Analysis
@@ -23,6 +23,7 @@ def summary_statistics(df):
 # where each attribute value is subtracted by the mean and then divided by the
 # standard deviation for that attribute.
 def standardize(df):
+	#TODO: might be better to use standard scaler
 	standardised_df = (df - df.mean()) / df.std()
 	return standardised_df
 
@@ -49,7 +50,10 @@ def kmeans_plus(df, k):
 # specifying an assignment of instances to clusters, using agglomerative hierarchical clustering.
 # y should contain values from the set {0,1,...,k-1}.
 def agglomerative(df, k):
-	pass
+	ac = AgglomerativeClustering(n_clusters=k)
+	ac.fit(df)
+	y = pd.Series(ac.labels_)
+	return y
 
 # Given a data set X and an assignment to clusters y
 # return the Silhouette score of this set of clusters.
@@ -94,3 +98,5 @@ k = 5
 print(f"2.2. Kmeans: \n{kmeans(df, k)}")
 
 print(f"2.3. Kmeans++: \n{kmeans_plus(df, k)}")
+
+print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative(df, k)}")
