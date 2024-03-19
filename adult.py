@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 
@@ -85,7 +84,9 @@ def dt_predict(X_train,y_train):
 # Given a pandas series y_pred with the predicted labels and a pandas series y_true with the true labels,
 # compute the error rate of the classifier that produced y_pred.  
 def dt_error_rate(y_pred, y_true):
-	pass
+	accuracy = accuracy_score(y_true, y_pred)
+	error_rate = 1 - accuracy
+	return error_rate
 
 # Print statements to check outputs. TODO: remove before submitting
 
