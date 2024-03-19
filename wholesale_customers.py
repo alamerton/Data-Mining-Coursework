@@ -1,16 +1,23 @@
+import pandas as pd
+
 # Part 2: Cluster Analysis
 
 # Return a pandas dataframe containing the data set that needs to be extracted from the data_file.
 # data_file will be populated with the string 'wholesale_customers.csv'.
 def read_csv_2(data_file):
-	pass
+	df = pd.read_csv(data_file)
+	df = df.drop(columns=['Channel', 'Region'])
+	return df
 
 # Return a pandas dataframe with summary statistics of the data.
 # Namely, 'mean', 'std' (standard deviation), 'min', and 'max' for each attribute.
 # These strings index the new dataframe columns. 
 # Each row should correspond to an attribute in the original data and be indexed with the attribute name.
 def summary_statistics(df):
-	pass
+	summary = df.describe()
+	summary = summary.drop(['count', '25%', '50%', '75%'])
+	transposed_summary = summary.T
+	return transposed_summary
 
 # Given a dataframe df with numeric values, return a dataframe (new copy)
 # where each attribute value is subtracted by the mean and then divided by the
@@ -65,3 +72,11 @@ def best_clustering_score(rdf):
 def scatter_plots(df):
 	pass
 
+# Print statements to check outputs. TODO: remove before submitting
+path = "data/wholesale_customers.csv"
+
+df = read_csv_2(path)
+
+print(f"0. Data pre-processing: {df.head, df.shape}")
+
+print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
