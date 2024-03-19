@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+from sklearn.preprocessing import LabelEncoder
 
 # Part 1: Decision Trees with Categorical Attributes
 
@@ -9,7 +9,9 @@ import numpy as np
 # corresponding to a path to the adult.csv file.
 
 def read_csv_1(data_file):
-	return pd.read_csv(data_file)
+	df = pd.read_csv(data_file)
+	df = df.drop(columns=['fnlwgt'])
+	return df
 
 # Return the number of rows in the pandas dataframe df.
 def num_rows(df):
@@ -58,6 +60,11 @@ def one_hot_encoding(df):
 # containing only one column with the labels of the df instances
 # converted to numeric using label encoding. 
 def label_encoding(df):
+	# save the class column as a series
+	class_series = 
+	# label encode the new series
+	label_encoder = LabelEncoder()
+	encoded_series = label_encoder.fit_transform(series)
 	pass
 
 # Given a training set X_train containing the input attribute values 
@@ -72,14 +79,11 @@ def dt_predict(X_train,y_train):
 def dt_error_rate(y_pred, y_true):
 	pass
 
+# Print statements to check outputs. TODO: remove before submitting
 
 path = "data/adult.csv"
 
 df = read_csv_1(path)
-
-# Drop 'fnlwgt' attribute
-
-df = df.drop(columns=['fnlwgt']) # TODO: why am I doing this again?
 
 print(f"1. Load the data set: {df.shape}")
 
@@ -93,10 +97,14 @@ print(f"d) Return a list with the columns names containing at least one missing 
 
 print(f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
 
-df = data_frame_without_missing_values(df)
+no_missing_values_df = data_frame_without_missing_values(df)
 
 print(f"2.1 Drop all instances with missing values: {df.shape}")
 
-one_hot_df = one_hot_encoding(df)
+one_hot_df = one_hot_encoding(no_missing_values_df)
 
 print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
+
+label_encoded_df = label_encoding(one_hot_df)
+print(f"2.3 Convert the class values to numeric with label encoding {label_encoded_df}")
+
