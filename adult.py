@@ -113,10 +113,13 @@ one_hot_df = one_hot_encoding(no_missing_values_df)
 print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
 
 label_encoded_classes = label_encoding(df)
+
 print(f"2.3 Convert the class values to numeric with label encoding: {label_encoded_classes.shape, label_encoded_classes}")
 
 y_pred = dt_predict(one_hot_df, label_encoded_classes)
+
 print(f"3.1 Build a decision tree: {y_pred}")
 
 error = dt_error_rate(y_pred, label_encoded_classes)
+
 print(f"3.2 Compute the training error rate of the resulting tree: {error}")
