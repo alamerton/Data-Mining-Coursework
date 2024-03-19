@@ -61,11 +61,11 @@ def one_hot_encoding(df):
 # converted to numeric using label encoding. 
 def label_encoding(df):
 	# save the class column as a series
-	class_series = 
+	class_as_series = pd.Series(df['class'])
 	# label encode the new series
 	label_encoder = LabelEncoder()
-	encoded_series = label_encoder.fit_transform(series)
-	pass
+	encoded_series = label_encoder.fit_transform(class_as_series)
+	return encoded_series
 
 # Given a training set X_train containing the input attribute values 
 # and labels y_train for the training instances,
@@ -105,6 +105,5 @@ one_hot_df = one_hot_encoding(no_missing_values_df)
 
 print(f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
 
-label_encoded_df = label_encoding(one_hot_df)
-print(f"2.3 Convert the class values to numeric with label encoding {label_encoded_df}")
-
+label_encoded_classes = label_encoding(df)
+print(f"2.3 Convert the class values to numeric with label encoding: {label_encoded_classes.shape, label_encoded_classes}")
