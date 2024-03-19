@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
 
 # Part 1: Decision Trees with Categorical Attributes
 
@@ -72,7 +76,11 @@ def label_encoding(df):
 # build a decision tree and use it to predict labels for X_train. 
 # Return a pandas series with the predicted values. 
 def dt_predict(X_train,y_train):
-	pass
+	decision_tree = DecisionTreeClassifier()
+	decision_tree.fit(X_train, y_train)
+	prediction = decision_tree.predict(X_train)
+	prediction_as_series = pd.Series(prediction)
+	return prediction_as_series
 
 # Given a pandas series y_pred with the predicted labels and a pandas series y_true with the true labels,
 # compute the error rate of the classifier that produced y_pred.  
