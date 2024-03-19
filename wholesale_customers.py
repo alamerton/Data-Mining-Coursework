@@ -70,7 +70,35 @@ def clustering_score(X,y):
 # 'k': the number of clusters produced,
 # 'Silhouette Score': for evaluating the resulting set of clusters.
 def cluster_evaluation(df):
-	pass
+	k_values = [3, 5, 10]
+	executions_df = pd.DataFrame(columns=['Algorithm', 'data', 'k', 'Silhouette score'])
+
+	for k in range(0, len(k_values)):
+		print(f"starting kmeans iteration for k={k_values[k]}")
+		for _ in range(0,10):
+			kmeans_data = kmeans(df, k_values[k-1])
+			silhouette_score = clustering_score(df, kmeans_data)
+			instance = pd.DataFrame({
+				'Algorithm': 'Kmeans',
+				'data': kmeans_data,
+				'k': k_values[k],
+				'Silhouette Score': silhouette_score
+				})
+			executions_df = pd.concat([executions_df, instance], ignore_index=True)
+
+		print(f"starting agglomerative iteration for k={k_values[k]}")
+		for _ in range(0,10):
+			agglomerative_data = agglomerative(df, k_values[k-1])
+			silhouette_score = clustering_score(df, agglomerative_data)
+			instance = pd.DataFrame({
+				'Algorithm': 'Agglomerative',
+				'data': agglomerative_data,
+				'k': k_values[k],
+				'Silhouette Score': silhouette_score
+				})
+			executions_df = pd.concat([executions_df, instance], ignore_index=True)
+
+	return executions_df
 
 # Given the performance evaluation dataframe produced by the cluster_evaluation function,
 # return the best computed Silhouette score.
@@ -88,13 +116,13 @@ path = "data/wholesale_customers.csv"
 
 df = read_csv_2(path)
 
-print(f"0. Data pre-processing: \n{df.head, df.shape}")
+print(f"0. Data pre-processing: \n{df.shape}")
 
 print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
 
 standardised_df = standardize(df)
 
-print(f"2.1. Return standardised dataframe: {standardised_df}")
+print(f"2.1. Return standardised dataframe: {standardised_df.shape}")
 
 k = 5
 
@@ -110,4 +138,9 @@ agglomerative_assignment = agglomerative(df, k)
 
 print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
 
-print(f"2.5. Silhouette score: \n{silhouette_score(standardised_df, kmeans_assignment)}")
+print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
+
+eval = cluster_evaluation(standardised_df)
+
+print(f"2.6. Cluster evaluation: \n{eval, eval.head}")
+#TODO: @here an extra silhouette score column is being added with NaN
