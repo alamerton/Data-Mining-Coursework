@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.cluster import KMeans
 
 # Part 2: Cluster Analysis
 
@@ -30,12 +31,15 @@ def standardize(df):
 # To see the impact of the random initialization,
 # using only one set of initial centroids in the kmeans run.
 def kmeans(df, k):
-	pass
+	kmeans = KMeans(n_clusters=k, random_state=0).fit(df)
+	y = pd.Series(kmeans.labels_)
+	return y
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
 # specifying an assignment of instances to clusters, using kmeans++.
 # y should contain values from the set {0,1,...,k-1}.
 def kmeans_plus(df, k):
+
 	pass
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
@@ -81,3 +85,7 @@ print(f"0. Data pre-processing: \n{df.head, df.shape}")
 print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
 
 print(f"2.1. Return standardised dataframe: {standardize(df)}")
+
+k = 5
+
+print(f"2.2. Kmeans: \n{kmeans(df, k)}")
