@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.cluster import KMeans, AgglomerativeClustering
+from sklearn.metrics import silhouette_score
 
 
 # Part 2: Cluster Analysis
@@ -50,7 +51,7 @@ def kmeans_plus(df, k):
 # specifying an assignment of instances to clusters, using agglomerative hierarchical clustering.
 # y should contain values from the set {0,1,...,k-1}.
 def agglomerative(df, k):
-	ac = AgglomerativeClustering(n_clusters=k)
+	ac = AgglomerativeClustering(n_clusters=k) # TODO: consider affinity and linkage
 	ac.fit(df)
 	y = pd.Series(ac.labels_)
 	return y
@@ -58,7 +59,7 @@ def agglomerative(df, k):
 # Given a data set X and an assignment to clusters y
 # return the Silhouette score of this set of clusters.
 def clustering_score(X,y):
-	pass
+	return silhouette_score(X, y)
 
 # Perform the cluster evaluation described in the coursework description.
 # Given the dataframe df with the data to be clustered,
@@ -91,12 +92,22 @@ print(f"0. Data pre-processing: \n{df.head, df.shape}")
 
 print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
 
-print(f"2.1. Return standardised dataframe: {standardize(df)}")
+standardised_df = standardize(df)
+
+print(f"2.1. Return standardised dataframe: {standardised_df}")
 
 k = 5
 
-print(f"2.2. Kmeans: \n{kmeans(df, k)}")
+kmeans_assignment = kmeans(df, k)
 
-print(f"2.3. Kmeans++: \n{kmeans_plus(df, k)}")
+print(f"2.2. Kmeans: \n{kmeans_assignment}")
 
-print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative(df, k)}")
+kmeans_pp_assignment = kmeans_plus(df, k)
+
+print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
+
+agglomerative_assignment = agglomerative(df, k)
+
+print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
+
+print(f"2.5. Silhouette score: \n{silhouette_score(standardised_df, kmeans_assignment)}")
