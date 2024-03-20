@@ -6,25 +6,28 @@ import pandas as pd
 # data_file will be populated with a string 
 # corresponding to a path containing the wholesale_customers.csv file.
 def read_csv_3(data_file):
-	df = pd.read_csv(data_file, encoding='latin-1')
-	return df
+	return pd.read_csv(data_file, encoding='latin-1')
 
 # Return a list with the possible sentiments that a tweet might have.
 def get_sentiments(df):
-	list = df['Sentiment'].unique().tolist()
-	return list
+	return df['Sentiment'].unique().tolist()
 
 # Return a string containing the second most popular sentiment among the tweets.
 def second_most_popular_sentiment(df):
-	pass
+	sentiment_counts = df['Sentiment'].value_counts()
+	return sentiment_counts[sentiment_counts == sentiment_counts.values[1]].index.tolist()[0]
+	#TODO: what if there is a tie in the dataset?
 
 # Return the date (string as it appears in the data) with the greatest number of extremely positive tweets.
 def date_most_popular_tweets(df):
-	pass
+	extremely_positive_df = df[df['Sentiment'] == 'Extremely Positive']
+	date_counts = extremely_positive_df['TweetAt'].value_counts()
+	date_with_max = date_counts.idxmax()
+	return date_with_max
 
 # Modify the dataframe df by converting all tweets to lower case. 
 def lower_case(df):
-	pass
+	return df['OriginalTweet'].str.lower()
 
 # Modify the dataframe df by replacing each characters which is not alphabetic or whitespace with a whitespace.
 def remove_non_alphabetic_chars(df):
@@ -80,4 +83,6 @@ path = 'data/coronavirus_tweets.csv'
 df = read_csv_3(path)
 
 # print(df)
-print(get_sentiments(df))
+# print(get_sentiments(df))
+# print(second_most_popular_sentiment(df))
+print(date_most_popular_tweets(df))
