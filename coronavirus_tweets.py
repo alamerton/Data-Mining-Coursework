@@ -57,17 +57,12 @@ def count_words_with_repetitions(tdf):
 
 # Given dataframe tdf with the tweets tokenized, return the number of distinct words in all tweets.
 def count_words_without_repetitions(tdf):
-	count = 0
-	for row in tdf['OriginalTweet']:
-		unique_word_list = []
-		for word in row:
-			if not(word in unique_word_list):
-				unique_word_list.append(word)
-		count += len(unique_word_list)
-	return count
+	unique_words = df['OriginalTweet'].explode().unique()
+	return len(unique_words)
 
 # Given dataframe tdf with the tweets tokenized, return a list with the k distinct words that are most frequent in the tweets.
 def frequent_words(tdf,k):
+
 	pass
 
 # Given dataframe tdf with the tweets tokenized, remove stop words and words with <=2 characters from each tweet.
