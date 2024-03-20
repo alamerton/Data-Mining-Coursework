@@ -1,5 +1,6 @@
 from collections import Counter
 import pandas as pd
+import requests
 # Part 3: Text mining.
 
 # Return a pandas dataframe containing the data set.
@@ -69,7 +70,19 @@ def frequent_words(tdf,k):
 # The function should download the list of stop words via:
 # https://raw.githubusercontent.com/fozziethebeat/S-Space/master/data/english-stop-words-large.txt
 def remove_stop_words(tdf):
-	pass
+	response = requests.get("https://raw.githubusercontent.com/fozziethebeat/S-Space/master/data/english-stop-words-large.txt")
+	if response.status_code == 200:
+		stop_words = response.text
+	else:
+		raise Exception("GET request failed")
+	# remove stop words from original tweets column	
+	# bla= [tdf[''] for word in tdf['OriginalTweet'] if word not in stop_words and len(word) >= 3]
+	for word in tdf['OriginalTweet']:
+		if word in stop_words or len(word) <= 2:
+			tdf['OriginalTweet'][word].remove()
+	return tdf
+	@here
+
 
 # Given dataframe tdf with the tweets tokenized, reduce each word in every tweet to its stem.
 def stemming(tdf):
@@ -103,4 +116,5 @@ newDf = remove_non_alphabetic_chars(df)
 tokenised_tweets_df = tokenize(newDf)
 # print(count_words_with_repetitions(tokenised_tweets_df))
 # print(count_words_without_repetitions(tokenised_tweets_df))
-print(frequent_words(tokenised_tweets_df, 10))
+# print(frequent_words(tokenised_tweets_df, 10))
+print(remove_stop_words(tokenised_tweets_df))
