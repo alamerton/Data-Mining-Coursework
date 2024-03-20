@@ -71,12 +71,11 @@ def clustering_score(X,y):
 # 'Silhouette Score': for evaluating the resulting set of clusters.
 def cluster_evaluation(df):
 	k_values = [3, 5, 10]
-	executions_df = pd.DataFrame(columns=['Algorithm', 'data', 'k', 'Silhouette score'])
+	executions_df = pd.DataFrame(columns=['Algorithm', 'data', 'k', 'Silhouette Score'])
 
 	for k in range(0, len(k_values)):
-		print(f"starting kmeans iteration for k={k_values[k]}")
 		for _ in range(0,10):
-			kmeans_data = kmeans(df, k_values[k-1])
+			kmeans_data = kmeans(df, k_values[k])
 			silhouette_score = clustering_score(df, kmeans_data)
 			instance = pd.DataFrame({
 				'Algorithm': 'Kmeans',
@@ -86,9 +85,8 @@ def cluster_evaluation(df):
 				})
 			executions_df = pd.concat([executions_df, instance], ignore_index=True)
 
-		print(f"starting agglomerative iteration for k={k_values[k]}")
 		for _ in range(0,10):
-			agglomerative_data = agglomerative(df, k_values[k-1])
+			agglomerative_data = agglomerative(df, k_values[k])
 			silhouette_score = clustering_score(df, agglomerative_data)
 			instance = pd.DataFrame({
 				'Algorithm': 'Agglomerative',
