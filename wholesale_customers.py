@@ -101,7 +101,10 @@ def cluster_evaluation(df):
 # Given the performance evaluation dataframe produced by the cluster_evaluation function,
 # return the best computed Silhouette score.
 def best_clustering_score(rdf):
-	pass
+	if isinstance(rdf, pd.DataFrame):
+		return rdf['Silhouette Score'].max() 
+	else:
+		return "Error: input is not a dataframe, please input a DataFrame."
 
 # Run the Kmeans algorithm with k=3 by using the standardized data set.
 # Generate a scatter plot for each pair of attributes.
@@ -140,5 +143,10 @@ print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignm
 
 eval = cluster_evaluation(standardised_df)
 
-print(f"2.6. Cluster evaluation: \n{eval, eval.head}")
-#TODO: @here an extra silhouette score column is being added with NaN
+print(f"2.6. Cluster evaluation: \n{eval}")
+
+print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
+
+not_a_dataframe = "house"
+
+print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
