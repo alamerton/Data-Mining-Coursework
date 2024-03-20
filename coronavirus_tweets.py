@@ -1,3 +1,4 @@
+import pandas as pd
 # Part 3: Text mining.
 
 # Return a pandas dataframe containing the data set.
@@ -5,11 +6,13 @@
 # data_file will be populated with a string 
 # corresponding to a path containing the wholesale_customers.csv file.
 def read_csv_3(data_file):
-	pass
+	df = pd.read_csv(data_file, encoding='latin-1')
+	return df
 
 # Return a list with the possible sentiments that a tweet might have.
 def get_sentiments(df):
-	pass
+	list = df['Sentiment'].unique().tolist()
+	return list
 
 # Return a string containing the second most popular sentiment among the tweets.
 def second_most_popular_sentiment(df):
@@ -71,8 +74,10 @@ def mnb_predict(df):
 def mnb_accuracy(y_pred,y_true):
 	pass
 
+# Print statements
 
+path = 'data/coronavirus_tweets.csv'
+df = read_csv_3(path)
 
-
-
-
+# print(df)
+print(get_sentiments(df))
