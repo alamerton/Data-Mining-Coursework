@@ -25,8 +25,9 @@ def summary_statistics(df):
 # where each attribute value is subtracted by the mean and then divided by the
 # standard deviation for that attribute.
 def standardize(df):
-	scaler = StandardScaler()
-	standardised_df = scaler.fit_transform(df)
+	# scaler = StandardScaler()
+	# standardised_df = scaler.fit_transform(df)
+	standardised_df = (df - df.mean()) / df.std()
 	return standardised_df
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
@@ -43,9 +44,9 @@ def kmeans(df, k):
 # specifying an assignment of instances to clusters, using kmeans++.
 # y should contain values from the set {0,1,...,k-1}.
 def kmeans_plus(df, k):
-	kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0)
-	kmeans.fit(df)
+	kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0).fit(df)
 	y = pd.Series(kmeans.labels_)
+	# TODO: could be predict here, not labels_
 	return y
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
@@ -111,58 +112,63 @@ def best_clustering_score(rdf):
 # Generate a scatter plot for each pair of attributes.
 # Data points in different clusters should appear with different colors.
 def scatter_plots(df):
-	# check if df is standardised, if not run standardise on it
-	# e.g. if df = standardise(df): use df, else use standardise(df)
+	# set k
 	k = 3
-	
-	kmeans_data = kmeans(df, k)
 
-	print("index", kmeans_data.index)
-	print("values: ", kmeans_data.values)
-	plt.scatter(kmeans_data.index, kmeans_data.values, c="blue")
-	plt.xlabel("Index")
-	plt.ylabel("Values")
-	plt.show()
+	# check dataframe is standardised. If not, run standardise function on it
+	standardised_input = standardize(df)
+	if not standardised_input.equals(df):
+		df = standardised_input
+
+	# run kmeans algorithm on args
+	kmeans = KMeans(n_clusters=k).fit(df)
+	labels = kmeans.fit_predict(df)
+
+	print(f"labels:", labels)
+
+	# generate plot for each pair of attributes
+	plt.scatter(labels[''])
+
 	# Output 15 scatter plots. Generate one pdf file for each of the 15 plots, according to dletsios (https://keats.kcl.ac.uk/mod/forum/discuss.php?d=656563)
 	pass
 
 # Print statements to check outputs. TODO: remove before submitting
-path = "data/wholesale_customers.csv"
 
+path = "data/wholesale_customers.csv"
 df = read_csv_2(path)
 
-print(f"0. Data pre-processing: \n{df.shape}")
+# print(f"0. Data pre-processing: \n{df.shape}")
 
-print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
+# print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
 
 standardised_df = standardize(df)
 
-print(f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
+# print(f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
 
-k = 5
+# k = 5
 
-kmeans_assignment = kmeans(df, k)
+# kmeans_assignment = kmeans(df, k)
 
-print(f"2.2. Kmeans: \n{kmeans_assignment}")
+# print(f"2.2. Kmeans: \n{kmeans_assignment}")
 
-kmeans_pp_assignment = kmeans_plus(df, k)
+# kmeans_pp_assignment = kmeans_plus(df, k)
 
-print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
+# print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
 
-agglomerative_assignment = agglomerative(df, k)
+# agglomerative_assignment = agglomerative(df, k)
 
-print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
+# print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
 
-print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
+# print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
 
-eval = cluster_evaluation(standardised_df)
+# eval = cluster_evaluation(standardised_df)
 
-# print(f"2.6. Cluster evaluation: \n{eval}")
+# # print(f"2.6. Cluster evaluation: \n{eval}")
 
-# print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
+# # print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
 
-not_a_dataframe = "house"
+# not_a_dataframe = "house"
 
-# print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
+# # print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
 
 print(f"2.8 Scatter plot: {scatter_plots(standardised_df)}")
