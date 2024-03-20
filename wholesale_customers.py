@@ -1,7 +1,8 @@
 import pandas as pd
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import silhouette_score
-
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
 
 # Part 2: Cluster Analysis
 
@@ -24,8 +25,8 @@ def summary_statistics(df):
 # where each attribute value is subtracted by the mean and then divided by the
 # standard deviation for that attribute.
 def standardize(df):
-	#TODO: might be better to use standard scaler
-	standardised_df = (df - df.mean()) / df.std()
+	scaler = StandardScaler()
+	standardised_df = scaler.fit_transform(df)
 	return standardised_df
 
 # Given a dataframe df and a number of clusters k, return a pandas series y
@@ -102,7 +103,7 @@ def cluster_evaluation(df):
 # return the best computed Silhouette score.
 def best_clustering_score(rdf):
 	if isinstance(rdf, pd.DataFrame):
-		return rdf['Silhouette Score'].max() 
+		return rdf['Silhouette Score'].max()
 	else:
 		raise Exception("Error: input is not a dataframe, please input a DataFrame.")
 
@@ -110,6 +111,19 @@ def best_clustering_score(rdf):
 # Generate a scatter plot for each pair of attributes.
 # Data points in different clusters should appear with different colors.
 def scatter_plots(df):
+	# check if df is standardised, if not run standardise on it
+	# e.g. if df = standardise(df): use df, else use standardise(df)
+	k = 3
+	
+	kmeans_data = kmeans(df, k)
+
+	print("index", kmeans_data.index)
+	print("values: ", kmeans_data.values)
+	plt.scatter(kmeans_data.index, kmeans_data.values, c="blue")
+	plt.xlabel("Index")
+	plt.ylabel("Values")
+	plt.show()
+	# Output 15 scatter plots. Generate one pdf file for each of the 15 plots, according to dletsios (https://keats.kcl.ac.uk/mod/forum/discuss.php?d=656563)
 	pass
 
 # Print statements to check outputs. TODO: remove before submitting
@@ -123,7 +137,7 @@ print(f"1. Compute the mean, standard dev, minimum and maximum value for each at
 
 standardised_df = standardize(df)
 
-print(f"2.1. Return standardised dataframe: {standardised_df.shape}")
+print(f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
 
 k = 5
 
@@ -143,10 +157,12 @@ print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignm
 
 eval = cluster_evaluation(standardised_df)
 
-print(f"2.6. Cluster evaluation: \n{eval}")
+# print(f"2.6. Cluster evaluation: \n{eval}")
 
-print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
+# print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
 
 not_a_dataframe = "house"
 
-print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
+# print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
+
+print(f"2.8 Scatter plot: {scatter_plots(standardised_df)}")
