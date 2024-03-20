@@ -1,3 +1,4 @@
+from collections import Counter
 import pandas as pd
 # Part 3: Text mining.
 
@@ -57,13 +58,12 @@ def count_words_with_repetitions(tdf):
 
 # Given dataframe tdf with the tweets tokenized, return the number of distinct words in all tweets.
 def count_words_without_repetitions(tdf):
-	unique_words = df['OriginalTweet'].explode().unique()
-	return len(unique_words)
+	return len(tdf['OriginalTweet'].explode().unique())
 
 # Given dataframe tdf with the tweets tokenized, return a list with the k distinct words that are most frequent in the tweets.
 def frequent_words(tdf,k):
-
-	pass
+	words_df = tdf['OriginalTweet'].explode()
+	return words_df.value_counts()[:k].index.tolist()
 
 # Given dataframe tdf with the tweets tokenized, remove stop words and words with <=2 characters from each tweet.
 # The function should download the list of stop words via:
@@ -101,4 +101,6 @@ df = read_csv_3(path)
 newDf = remove_non_alphabetic_chars(df)
 # print(remove_multiple_consecutive_whitespaces(newDf))
 tokenised_tweets_df = tokenize(newDf)
-print(count_words_with_repetitions(tokenised_tweets_df))
+# print(count_words_with_repetitions(tokenised_tweets_df))
+# print(count_words_without_repetitions(tokenised_tweets_df))
+print(frequent_words(tokenised_tweets_df, 10))
