@@ -32,10 +32,9 @@ def lower_case(df):
 
 # Modify the dataframe df by replacing each characters which is not alphabetic or whitespace with a whitespace.
 def remove_non_alphabetic_chars(df):
-	df = df.apply(lambda x: x.str.replace(r'[^a-zA-Z\s]', ' ', regex=True) if x.dtype == "object" else x)
-	for column in df.items():
-		if column.dtype == 'object':
-			column.str.replace(r'[^a-zA-Z\s]', ' ', regex=True)
+	for column in df.columns:
+		if df[column].dtype == 'object':
+			df[column] = df[column].str.replace(r'[^a-zA-Z\s]', ' ', regex=True)
 	return df
 
 # Modify the dataframe df with tweets after removing characters which are not alphabetic or whitespaces.
