@@ -104,7 +104,7 @@ def best_clustering_score(rdf):
 	if isinstance(rdf, pd.DataFrame):
 		return rdf['Silhouette Score'].max() 
 	else:
-		return "Error: input is not a dataframe, please input a DataFrame."
+		raise Exception("Error: input is not a dataframe, please input a DataFrame.")
 
 # Run the Kmeans algorithm with k=3 by using the standardized data set.
 # Generate a scatter plot for each pair of attributes.
