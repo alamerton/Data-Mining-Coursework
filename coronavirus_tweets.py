@@ -45,15 +45,26 @@ def remove_multiple_consecutive_whitespaces(df):
 # Given a dataframe where each tweet is one string with words separated by single whitespaces,
 # tokenize every tweet by converting it into a list of words (strings).
 def tokenize(df):
-	pass
+	df['OriginalTweet'] = df['OriginalTweet'].str.split()
+	return df
 
 # Given dataframe tdf with the tweets tokenized, return the number of words in all tweets including repetitions.
 def count_words_with_repetitions(tdf):
-	pass
+	count = 0
+	for row in tdf['OriginalTweet']:
+		count += len(row)
+	return count
 
 # Given dataframe tdf with the tweets tokenized, return the number of distinct words in all tweets.
 def count_words_without_repetitions(tdf):
-	pass
+	count = 0
+	for row in tdf['OriginalTweet']:
+		unique_word_list = []
+		for word in row:
+			if not(word in unique_word_list):
+				unique_word_list.append(word)
+		count += len(unique_word_list)
+	return count
 
 # Given dataframe tdf with the tweets tokenized, return a list with the k distinct words that are most frequent in the tweets.
 def frequent_words(tdf,k):
@@ -93,4 +104,6 @@ df = read_csv_3(path)
 # print(date_most_popular_tweets(df))
 # print(lower_case(df))
 newDf = remove_non_alphabetic_chars(df)
-print(remove_multiple_consecutive_whitespaces(newDf))
+# print(remove_multiple_consecutive_whitespaces(newDf))
+tokenised_tweets_df = tokenize(newDf)
+print(count_words_with_repetitions(tokenised_tweets_df))
