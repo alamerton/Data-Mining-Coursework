@@ -39,7 +39,8 @@ def remove_non_alphabetic_chars(df):
 
 # Modify the dataframe df with tweets after removing characters which are not alphabetic or whitespaces.
 def remove_multiple_consecutive_whitespaces(df):
-	pass
+	df['OriginalTweet'] = df['OriginalTweet'].str.replace(r'\s+', ' ', regex=True)
+	return df
 
 # Given a dataframe where each tweet is one string with words separated by single whitespaces,
 # tokenize every tweet by converting it into a list of words (strings).
@@ -91,4 +92,5 @@ df = read_csv_3(path)
 # print(second_most_popular_sentiment(df))
 # print(date_most_popular_tweets(df))
 # print(lower_case(df))
-print(remove_non_alphabetic_chars(df))
+newDf = remove_non_alphabetic_chars(df)
+print(remove_multiple_consecutive_whitespaces(newDf))
