@@ -32,7 +32,11 @@ def lower_case(df):
 
 # Modify the dataframe df by replacing each characters which is not alphabetic or whitespace with a whitespace.
 def remove_non_alphabetic_chars(df):
-	pass
+	df = df.apply(lambda x: x.str.replace(r'[^a-zA-Z\s]', ' ', regex=True) if x.dtype == "object" else x)
+	for column in df.items():
+		if column.dtype == 'object':
+			column.str.replace(r'[^a-zA-Z\s]', ' ', regex=True)
+	return df
 
 # Modify the dataframe df with tweets after removing characters which are not alphabetic or whitespaces.
 def remove_multiple_consecutive_whitespaces(df):
@@ -87,4 +91,5 @@ df = read_csv_3(path)
 # print(get_sentiments(df))
 # print(second_most_popular_sentiment(df))
 # print(date_most_popular_tweets(df))
-print(lower_case(df))
+# print(lower_case(df))
+print(remove_non_alphabetic_chars(df))
