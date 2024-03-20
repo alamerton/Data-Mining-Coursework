@@ -27,7 +27,8 @@ def date_most_popular_tweets(df):
 
 # Modify the dataframe df by converting all tweets to lower case. 
 def lower_case(df):
-	return df['OriginalTweet'].str.lower()
+	df['OriginalTweet'] = df['OriginalTweet'].str.lower()
+	return df
 
 # Modify the dataframe df by replacing each characters which is not alphabetic or whitespace with a whitespace.
 def remove_non_alphabetic_chars(df):
@@ -85,4 +86,5 @@ df = read_csv_3(path)
 # print(df)
 # print(get_sentiments(df))
 # print(second_most_popular_sentiment(df))
-print(date_most_popular_tweets(df))
+# print(date_most_popular_tweets(df))
+print(lower_case(df))
