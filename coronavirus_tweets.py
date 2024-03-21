@@ -31,7 +31,6 @@ def get_sentiments(df):
 def second_most_popular_sentiment(df):
     sentiment_counts = df['Sentiment'].value_counts()
     return sentiment_counts[sentiment_counts == sentiment_counts.values[1]].index.tolist()[0]
-    # TODO: what if there is a tie in the dataset?
 
 # Return the date (string as it appears in the data) with the greatest number of extremely positive tweets.
 
@@ -39,8 +38,7 @@ def second_most_popular_sentiment(df):
 def date_most_popular_tweets(df):
     extremely_positive_df = df[df['Sentiment'] == 'Extremely Positive']
     date_counts = extremely_positive_df['TweetAt'].value_counts()
-    date_with_max = date_counts.idxmax()
-    return date_with_max
+    return date_counts.idxmax()
 
 # Modify the dataframe df by converting all tweets to lower case.
 
@@ -127,6 +125,7 @@ def stemming(tdf):
 # Return predicted sentiments (e.g. 'Neutral', 'Positive') for the training set
 # as a 1d array (numpy.ndarray).
 
+
 def mnb_predict(df):
     tweets = df['OriginalTweet'].values
     sentiment = df['Sentiment'].astype('category')
@@ -164,29 +163,17 @@ df = read_csv_3(path)
 # print(second_most_popular_sentiment(df))
 # print(date_most_popular_tweets(df))
 # print(lower_case(df))
-newDf = remove_non_alphabetic_chars(df)
+# newDf = remove_non_alphabetic_chars(df)
 # print(remove_multiple_consecutive_whitespaces(newDf))
-tokenised_tweets_df = tokenize(newDf)
+# tokenised_tweets_df = tokenize(newDf)
 # print(count_words_with_repetitions(tokenised_tweets_df))
 # print(count_words_without_repetitions(tokenised_tweets_df))
 # print(frequent_words(tokenised_tweets_df, 10))
-df_no_stop_words = remove_stop_words(tokenised_tweets_df)
+# df_no_stop_words = remove_stop_words(tokenised_tweets_df)
 # print(remove_stop_words(tokenised_tweets_df))
-
 # print(stemming(df_no_stop_words))
-# print(mnb_predict(df))
+
+print(mnb_predict(df))
 labels = mnb_predict(df)
-
-# get a y_true
-
-# tweets = df['OriginalTweet'].values
 sentiment = df['Sentiment']
-
-# _, _, _, y_true = train_test_split(
-#     tweets,
-#     sentiment,
-#     test_size=0.2,
-#     random_state=42
-# )
-
 print(mnb_accuracy(labels, sentiment))

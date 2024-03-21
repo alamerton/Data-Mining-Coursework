@@ -11,9 +11,7 @@ import matplotlib.pyplot as plt
 
 
 def read_csv_2(data_file):
-    df = pd.read_csv(data_file)
-    df = df.drop(columns=['Channel', 'Region'])
-    return df
+    return pd.read_csv(data_file).drop(columns=['Channel', 'Region'])
 
 # Return a pandas dataframe with summary statistics of the data.
 # Namely, 'mean', 'std' (standard deviation), 'min', and 'max' for each attribute.
@@ -22,8 +20,7 @@ def read_csv_2(data_file):
 
 
 def summary_statistics(df):
-    summary = df.describe().drop(['count', '25%', '50%', '75%']).T
-    return summary
+    return df.describe().drop(['count', '25%', '50%', '75%']).T
 
 # Given a dataframe df with numeric values, return a dataframe (new copy)
 # where each attribute value is subtracted by the mean and then divided by the
@@ -31,8 +28,6 @@ def summary_statistics(df):
 
 
 def standardize(df):
-    # scaler = StandardScaler()
-    # standardised_df = scaler.fit_transform(df)
     standardised_df = (df - df.mean()) / df.std()
     return standardised_df
 
@@ -136,18 +131,20 @@ def best_clustering_score(rdf):
 # Generate a scatter plot for each pair of attributes.
 # Data points in different clusters should appear with different colors.
 
+
 def scatter_plots(df):
     k = 3
     standardised_input = standardize(df)
     if not standardised_input.equals(df):
         df = standardised_input
+
     df_array = df.to_numpy()
     kmeans = KMeans(n_clusters=k).fit(df_array)
     labels = kmeans.fit_predict(df_array)
 
-    n_features = df_array.shape[1]
-    for i in range(n_features):
-        for j in range(i+1, n_features):
+    features = df_array.shape[1]
+    for i in range(features):
+        for j in range(i+1, features):
             plt.figure(figsize=(10, 10))
             plt.scatter(df_array[:, i], df_array[:, j],
                         c=labels, cmap='viridis')
@@ -158,7 +155,7 @@ def scatter_plots(df):
             plt.savefig(f"Figure_{j}.pdf")
             plt.show()
 
-# Print statements to check outputs. TODO: remove before submitting
+### Print statements to check outputs. TODO: remove before submitting
 
 
 path = "data/wholesale_customers.csv"
@@ -170,32 +167,35 @@ df = read_csv_2(path)
 
 standardised_df = standardize(df)
 
-# print(f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
+print(
+    f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
 
-# k = 5
+k = 5
 
-# kmeans_assignment = kmeans(df, k)
+kmeans_assignment = kmeans(df, k)
 
-# print(f"2.2. Kmeans: \n{kmeans_assignment}")
+print(f"2.2. Kmeans: \n{kmeans_assignment}")
 
-# kmeans_pp_assignment = kmeans_plus(df, k)
+kmeans_pp_assignment = kmeans_plus(df, k)
 
-# print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
+print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
 
-# agglomerative_assignment = agglomerative(df, k)
+agglomerative_assignment = agglomerative(df, k)
 
-# print(f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
+print(
+    f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
 
-# print(f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
+print(
+    f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
 
-# eval = cluster_evaluation(standardised_df)
+eval = cluster_evaluation(standardised_df)
 
-# # print(f"2.6. Cluster evaluation: \n{eval}")
+print(f"2.6. Cluster evaluation: \n{eval}")
 
-# # print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
+print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
 
-# not_a_dataframe = "house"
+not_a_dataframe = "house"
 
-# # print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
+print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
 
-print(f"2.8 Scatter plot: {scatter_plots(standardised_df)}")
+# print(f"2.8 Scatter plot: {scatter_plots(standardised_df)}")
