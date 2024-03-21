@@ -133,12 +133,15 @@ def mnb_predict(df):
     vectoriser = CountVectorizer(
         ngram_range=(1, 1),
         min_df=2,
-        max_df=0.51,
-        max_features=15000,
+        max_df=0.6,
+        max_features=25000,
     )
 
     X_train = vectoriser.fit_transform(tweets)
-    nb = MultinomialNB()
+    nb = MultinomialNB(
+        alpha=1.0e-10,
+        fit_prior=True,
+    )
     nb.fit(X_train, sentiment)
     y = nb.predict(X_train)
     return y
@@ -150,7 +153,7 @@ def mnb_predict(df):
 
 
 def mnb_accuracy(y_pred, y_true):
-    return "Accuracy:", accuracy_score(y_true, y_pred)
+    return accuracy_score(y_true, y_pred)
 
 # Print statements
 
@@ -173,7 +176,6 @@ df = read_csv_3(path)
 # print(remove_stop_words(tokenised_tweets_df))
 # print(stemming(df_no_stop_words))
 
-print(mnb_predict(df))
 labels = mnb_predict(df)
 sentiment = df['Sentiment']
 print(mnb_accuracy(labels, sentiment))
