@@ -127,45 +127,30 @@ def stemming(tdf):
 # Return predicted sentiments (e.g. 'Neutral', 'Positive') for the training set
 # as a 1d array (numpy.ndarray).
 
-
 def mnb_predict(df):
-    covid_array = df.to_numpy()
 
-    # # TODO: even better here to provide [the index of 'TweetAt' and 'Sentiment' in case the dataset changes]
-    # column_names = df.columns
-    # tweet_index = column_names.index('TweetAt')
-    # sentiment_index = column_names.index('Sentiment')
-    # tweets = covid_array[:, tweet_index]
-    # sentiment = covid_array[:, sentiment_index]
+    tweets = df['OriginalTweet'].values 
+    sentiment = df['Sentiment'].values
 
-    tweets = covid_array[:, 4]
-    sentiment = covid_array[:, 5]
-
-    # todo: check if these are correct
+    print(sentiment)
     print(f"tweets: {tweets}, sentiment: {sentiment}")
 
-    documents_train, documents_test, labels_train, _ = train_test_split(
-        tweets,
-        sentiment,
-        test_size=0.2,
-        random_state=42
-    )
 
     vectoriser = CountVectorizer(
-        ngram_range=(1, 2),
+        ngram_range=(1, 1),
         min_df=0.01,
         max_df=0.95,
-        max_features=5000,
-        stop_words='english',
-        token_pattern=r'\w{2,}',
+        max_features=1500,
+        # stop_words='english',
+        # token_pattern=r'\w{2,}',
         strip_accents='ascii',
         lowercase=True)
 
-    X_train = vectoriser.fit_transform(documents_train)
-    X_test = vectoriser.transform(documents_test)
+    X_train = vectoriser.fit_transform(tweets)
+    X_test = vectoriser.transform(sentiment)
 
     nb = MultinomialNB()
-    nb.fit(X_train, labels_train)
+    nb.fit(X_train, X_test)
     return nb.predict(X_test)
 
 
@@ -206,11 +191,11 @@ labels = mnb_predict(df)
 tweets = df['OriginalTweet'].values
 sentiment = df['Sentiment'].values
 
-_, _, _, y_true = train_test_split(
-    tweets,
-    sentiment,
-    test_size=0.2,
-    random_state=42
-)
+# _, _, _, y_true = train_test_split(
+#     tweets,
+#     sentiment,
+#     test_size=0.2,
+#     random_state=42
+# )
 
-print(mnb_accuracy(labels, y_true))
+print(mnb_accuracy(labels, sentiment))
