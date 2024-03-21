@@ -1,6 +1,10 @@
 from collections import Counter
 import pandas as pd
 import requests
+import nltk
+from nltk.stem import PorterStemmer
+
+
 # Part 3: Text mining.
 
 # Return a pandas dataframe containing the data set.
@@ -75,14 +79,16 @@ def remove_stop_words(tdf):
 		stop_words = response.text
 	else:
 		raise Exception("GET request failed")
-	# remove stop words from original tweets column	
 	tdf['OriginalTweet'] = tdf['OriginalTweet'].apply(lambda tweet_text: ' '.join([word for word in tweet_text if word not in stop_words and len(word) > 2]))
 	return tdf
 
 
 # Given dataframe tdf with the tweets tokenized, reduce each word in every tweet to its stem.
 def stemming(tdf):
-	pass
+	nltk.download('punkt')
+	ps = PorterStemmer()
+	tdf['OriginalTweet'] = tdf['OriginalTweet'].apply(lambda tweet_text: ' '.join([ps.stem(word) for word in nltk.word_tokenize(tweet_text)]))
+	return tdf
 
 # Given a pandas dataframe df with the original coronavirus_tweets.csv data set,
 # build a Multinomial Naive Bayes classifier. 
@@ -113,4 +119,7 @@ tokenised_tweets_df = tokenize(newDf)
 # print(count_words_with_repetitions(tokenised_tweets_df))
 # print(count_words_without_repetitions(tokenised_tweets_df))
 # print(frequent_words(tokenised_tweets_df, 10))
-print(remove_stop_words(tokenised_tweets_df))
+df_no_stop_words = remove_stop_words(tokenised_tweets_df)
+# print(remove_stop_words(tokenised_tweets_df))
+
+print(stemming(df_no_stop_words))
