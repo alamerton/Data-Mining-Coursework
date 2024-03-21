@@ -91,8 +91,7 @@ def dt_predict(X_train, y_train):
     decision_tree = DecisionTreeClassifier()
     decision_tree.fit(X_train, y_train)
     prediction = decision_tree.predict(X_train)
-    prediction_as_series = pd.Series(prediction)
-    return prediction_as_series
+    return pd.Series(prediction)
 
 # Given a pandas series y_pred with the predicted labels and a pandas series y_true with the true labels,
 # compute the error rate of the classifier that produced y_pred.
@@ -100,8 +99,7 @@ def dt_predict(X_train, y_train):
 
 def dt_error_rate(y_pred, y_true):
     accuracy = accuracy_score(y_true, y_pred)
-    error_rate = 1 - accuracy
-    return error_rate
+    return 1 - accuracy
 
 # Print statements to check outputs. TODO: remove before submitting
 
