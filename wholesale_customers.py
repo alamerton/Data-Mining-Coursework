@@ -60,7 +60,6 @@ def kmeans_plus(df, k):
 
 
 def agglomerative(df, k):
-    # TODO: consider affinity and linkage
     ac = AgglomerativeClustering(n_clusters=k)
     ac.fit(df)
     y = pd.Series(ac.labels_)
@@ -153,48 +152,3 @@ def scatter_plots(df):
             plt.colorbar()
             plt.savefig(f"Figure_{j}.pdf")
             plt.show()
-
-# Print statements to check outputs. TODO: remove before submitting
-
-
-path = "data/wholesale_customers.csv"
-df = read_csv_2(path)
-
-# print(f"0. Data pre-processing: \n{df.shape}")
-
-# print(f"1. Compute the mean, standard dev, minimum and maximum value for each attribute: \n{summary_statistics(df)}")
-
-standardised_df = standardize(df)
-
-print(
-    f"2.1. Return standardised dataframe: {standardised_df.shape, standardised_df}")
-
-k = 5
-
-kmeans_assignment = kmeans(df, k)
-
-print(f"2.2. Kmeans: \n{kmeans_assignment}")
-
-kmeans_pp_assignment = kmeans_plus(df, k)
-
-print(f"2.3. Kmeans++: \n{kmeans_pp_assignment}")
-
-agglomerative_assignment = agglomerative(df, k)
-
-print(
-    f"2.4. Agglomerative hierarchical clustering: \n{agglomerative_assignment}")
-
-print(
-    f"2.5. Silhouette score: {clustering_score(standardised_df, kmeans_assignment)}")
-
-eval = cluster_evaluation(standardised_df)
-
-print(f"2.6. Cluster evaluation: \n{eval}")
-
-print(f"2.7. Best silhouette score: {best_clustering_score(eval)}")
-
-not_a_dataframe = "house"
-
-print(f"2.7.1 Best silhouette score: {best_clustering_score(not_a_dataframe)}")
-
-# print(f"2.8 Scatter plot: {scatter_plots(standardised_df)}")
