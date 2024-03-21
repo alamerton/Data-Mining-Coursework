@@ -129,9 +129,11 @@ def stemming(tdf):
 
 
 def mnb_predict(df):
-	#TODO: Technically we are asked to store the corpus (df) in a numpy array, not just two of its columns
-    tweets = df['OriginalTweet'].values
-    sentiment = df['Sentiment'].values
+	covid_array = df.to_numpy()
+
+	# even better here to provide [the index of 'TweetAt' and 'Sentiment' in case the dataset changes]
+	tweets = covid_array[:, 4]
+	sentiment = covid_array[:, 5]
 
     documents_train, documents_test, labels_train, _ = train_test_split(
         tweets,
@@ -139,10 +141,10 @@ def mnb_predict(df):
         test_size=0.2,
         random_state=42
     )
-
-    vectorizer = CountVectorizer()
-    X_train = vectorizer.fit_transform(documents_train)
-    X_test = vectorizer.transform(documents_test)
+    
+    vectoriser = CountVectorizer()
+    X_train = vectoriser.fit_transform(documents_train)
+    X_test = vectoriser.transform(documents_test)
 
     nb = MultinomialNB()
     nb.fit(X_train, labels_train)
@@ -155,7 +157,7 @@ def mnb_predict(df):
 
 
 def mnb_accuracy(y_pred, y_true):
-    pass
+    return "Accuracy:", accuracy_score(y_true, y_pred)
 
 # Print statements
 
@@ -178,4 +180,19 @@ df_no_stop_words = remove_stop_words(tokenised_tweets_df)
 # print(remove_stop_words(tokenised_tweets_df))
 
 # print(stemming(df_no_stop_words))
-print(mnb_predict(df))
+# print(mnb_predict(df))
+labels = mnb_predict(df)
+
+# get a y_true
+
+tweets = df['OriginalTweet'].values
+sentiment = df['Sentiment'].values
+
+_, _, _, y_true = train_test_split(
+    tweets,
+    sentiment,
+    test_size=0.2,
+    random_state=42
+)
+
+print(mnb_accuracy(labels, y_true))
