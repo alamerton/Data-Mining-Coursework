@@ -14,7 +14,8 @@ from sklearn.metrics import accuracy_score
 # data_file will be populated with a string
 # corresponding to a path containing the wholesale_customers.csv file.
 def read_csv_3(data_file):
-    return pd.read_csv(data_file, encoding='latin-1')
+    df = pd.read_csv(data_file, encoding='latin-1')
+    return df
 
 # Return a list with the possible sentiments that a tweet might have.
 
@@ -150,4 +151,4 @@ def mnb_predict(df):
 
 
 def mnb_accuracy(y_pred, y_true):
-    return accuracy_score(y_true, y_pred)
+    return round(accuracy_score(y_true, y_pred), 3)
