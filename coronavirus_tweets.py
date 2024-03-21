@@ -141,6 +141,9 @@ def mnb_predict(df):
     tweets = covid_array[:, 4]
     sentiment = covid_array[:, 5]
 
+    # todo: check if these are correct
+    print(f"tweets: {tweets}, sentiment: {sentiment}")
+
     documents_train, documents_test, labels_train, _ = train_test_split(
         tweets,
         sentiment,
@@ -153,7 +156,10 @@ def mnb_predict(df):
         min_df=0.01,
         max_df=0.95,
         max_features=5000,
-    )
+        stop_words='english',
+        token_pattern=r'\w{2,}',
+        strip_accents='ascii',
+        lowercase=True)
 
     X_train = vectoriser.fit_transform(documents_train)
     X_test = vectoriser.transform(documents_test)
