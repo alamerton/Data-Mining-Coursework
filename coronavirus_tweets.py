@@ -1,8 +1,14 @@
 from collections import Counter
+import numpy as np
 import pandas as pd
 import requests
 import nltk
 from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
+
 
 
 # Part 3: Text mining.
@@ -95,7 +101,25 @@ def stemming(tdf):
 # Return predicted sentiments (e.g. 'Neutral', 'Positive') for the training set
 # as a 1d array (numpy.ndarray). 
 def mnb_predict(df):
-	pass
+	# Generate train test data
+
+	# Build and fit classifier
+	documents_train, documents_test, labels_train, labels_test = train_test_split(df['OriginalTweet'], df['Sentiment'], test_size=0.2, random_state=42)
+
+	# Convert text data into a term-document matrix
+	vectorizer = CountVectorizer()
+	X_train = vectorizer.fit_transform(documents_train)
+	X_test = vectorizer.transform(documents_test)
+
+	# Train the Multinomial Naive Bayes model
+	nb = MultinomialNB()
+	nb.fit(X_train, labels_train)
+
+	# Make predictions on the test set
+	y_pred = nb.predict(X_test)
+
+	# Evaluate the model
+	return "Accuracy:", accuracy_score(labels_test, y_pred)
 
 # Given a 1d array (numpy.ndarray) y_pred with predicted labels (e.g. 'Neutral', 'Positive') 
 # by a classifier and another 1d array y_true with the true labels, 
@@ -122,4 +146,5 @@ tokenised_tweets_df = tokenize(newDf)
 df_no_stop_words = remove_stop_words(tokenised_tweets_df)
 # print(remove_stop_words(tokenised_tweets_df))
 
-print(stemming(df_no_stop_words))
+# print(stemming(df_no_stop_words))
+print(mnb_predict(df))
