@@ -129,30 +129,25 @@ def stemming(tdf):
 
 
 def mnb_predict(df):
-    # Store corpus in a numpy array
-
+	#TODO: Technically we are asked to store the corpus (df) in a numpy array, not just two of its columns
     tweets = df['OriginalTweet'].values
     sentiment = df['Sentiment'].values
 
-    documents_train, documents_test, labels_train, labels_test = train_test_split(
+    documents_train, documents_test, labels_train, _ = train_test_split(
         tweets,
         sentiment,
         test_size=0.2,
         random_state=42
     )
-    # Produce sparse representation using term document matrix
 
     vectorizer = CountVectorizer()
     X_train = vectorizer.fit_transform(documents_train)
     X_test = vectorizer.transform(documents_test)
 
-    # Build and fit classifier
-
     nb = MultinomialNB()
     nb.fit(X_train, labels_train)
-    y_pred = nb.predict(X_test)
+    return nb.predict(X_test)
 
-    print(y_pred)
 
 # Given a 1d array (numpy.ndarray) y_pred with predicted labels (e.g. 'Neutral', 'Positive')
 # by a classifier and another 1d array y_true with the true labels,
