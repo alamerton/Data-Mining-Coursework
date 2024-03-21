@@ -131,7 +131,13 @@ def stemming(tdf):
 def mnb_predict(df):
     covid_array = df.to_numpy()
 
-	# even better here to provide [the index of 'TweetAt' and 'Sentiment' in case the dataset changes]
+    # # TODO: even better here to provide [the index of 'TweetAt' and 'Sentiment' in case the dataset changes]
+    # column_names = df.columns
+    # tweet_index = column_names.index('TweetAt')
+    # sentiment_index = column_names.index('Sentiment')
+    # tweets = covid_array[:, tweet_index]
+    # sentiment = covid_array[:, sentiment_index]
+
     tweets = covid_array[:, 4]
     sentiment = covid_array[:, 5]
 
@@ -141,7 +147,7 @@ def mnb_predict(df):
         test_size=0.2,
         random_state=42
     )
-    
+
     vectoriser = CountVectorizer()
     X_train = vectoriser.fit_transform(documents_train)
     X_test = vectoriser.transform(documents_test)
