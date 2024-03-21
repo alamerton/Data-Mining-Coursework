@@ -154,28 +154,3 @@ def mnb_predict(df):
 
 def mnb_accuracy(y_pred, y_true):
     return accuracy_score(y_true, y_pred)
-
-# Print statements
-
-
-path = 'data/coronavirus_tweets.csv'
-df = read_csv_3(path)
-
-# print(df)
-# print(get_sentiments(df))
-# print(second_most_popular_sentiment(df))
-# print(date_most_popular_tweets(df))
-# print(lower_case(df))
-# newDf = remove_non_alphabetic_chars(df)
-# print(remove_multiple_consecutive_whitespaces(newDf))
-# tokenised_tweets_df = tokenize(newDf)
-# print(count_words_with_repetitions(tokenised_tweets_df))
-# print(count_words_without_repetitions(tokenised_tweets_df))
-# print(frequent_words(tokenised_tweets_df, 10))
-# df_no_stop_words = remove_stop_words(tokenised_tweets_df)
-# print(remove_stop_words(tokenised_tweets_df))
-# print(stemming(df_no_stop_words))
-
-labels = mnb_predict(df)
-sentiment = df['Sentiment']
-print(mnb_accuracy(labels, sentiment))
