@@ -136,24 +136,15 @@ def best_clustering_score(rdf):
 # Generate a scatter plot for each pair of attributes.
 # Data points in different clusters should appear with different colors.
 
-
 def scatter_plots(df):
-    # set k
     k = 3
-
-    # check dataframe is standardised. If not, run standardise function on it
     standardised_input = standardize(df)
     if not standardised_input.equals(df):
         df = standardised_input
-
     df_array = df.to_numpy()
-
-    # Run K-means clustering
-    k = 3
     kmeans = KMeans(n_clusters=k).fit(df_array)
     labels = kmeans.fit_predict(df_array)
 
-    # Generate scatter plots for each pair of attributes
     n_features = df_array.shape[1]
     for i in range(n_features):
         for j in range(i+1, n_features):
@@ -164,31 +155,8 @@ def scatter_plots(df):
             plt.ylabel(f'Feature {j+1}')
             plt.title(f'Scatter plot of Feature {i+1} vs Feature {j+1}')
             plt.colorbar()
-            plt.savefig(f"Figure_{j}")
+            plt.savefig(f"Figure_{j}.pdf")
             plt.show()
-
-    # fig, axs = plt.subplots(5, 5, figsize=(15, 15)) # Adjusted to 5x5 for 25 plots
-    # axs = axs.ravel() # Flatten the array of axes
-
-    # n_features = df_array.shape[1]
-    # plot_index = 0
-    # for i in range(n_features):
-    #     for j in range(i+1, n_features):
-    #         if plot_index < len(axs):
-    #             axs[plot_index].scatter(df_array[:, i], df_array[:, j], c=labels, cmap='viridis')
-    #             axs[plot_index].set_xlabel(f'Feature {i+1}')
-    #             axs[plot_index].set_ylabel(f'Feature {j+1}')
-    #             axs[plot_index].set_title(f'Scatter plot of Feature {i+1} vs Feature {j+1}')
-    #             plot_index += 1
-
-    # for i in range(plot_index, len(axs)):
-    #     fig.delaxes(axs[i])
-
-    # plt.tight_layout()
-    # plt.show()
-
-    # Output 15 scatter plots. Generate one pdf file for each of the 15 plots, according to dletsios (https://keats.kcl.ac.uk/mod/forum/discuss.php?d=656563)
-    pass
 
 # Print statements to check outputs. TODO: remove before submitting
 
