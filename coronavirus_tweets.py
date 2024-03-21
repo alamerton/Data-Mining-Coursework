@@ -129,11 +129,11 @@ def stemming(tdf):
 
 
 def mnb_predict(df):
-	covid_array = df.to_numpy()
+    covid_array = df.to_numpy()
 
 	# even better here to provide [the index of 'TweetAt' and 'Sentiment' in case the dataset changes]
-	tweets = covid_array[:, 4]
-	sentiment = covid_array[:, 5]
+    tweets = covid_array[:, 4]
+    sentiment = covid_array[:, 5]
 
     documents_train, documents_test, labels_train, _ = train_test_split(
         tweets,
