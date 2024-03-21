@@ -55,7 +55,7 @@ def bachelors_masters_percentage(df):
 
 
 def data_frame_without_missing_values(df):
-    df.dropna()  # TODO: check this is doing what I mean
+    df = df.dropna(how='any')
     return df
 
 # Return a pandas dataframe (new copy) from the pandas dataframe df
@@ -127,9 +127,10 @@ print(
 
 no_missing_values_df = data_frame_without_missing_values(df)
 
-print(f"2.1 Drop all instances with missing values: {df.shape}")
+print(
+    f"2.1 Drop all instances with missing values: {no_missing_values_df.shape}")
 
-one_hot_df = one_hot_encoding(no_missing_values_df)
+one_hot_df = one_hot_encoding(df)
 
 print(
     f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
