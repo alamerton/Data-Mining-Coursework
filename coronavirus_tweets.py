@@ -127,18 +127,18 @@ def stemming(tdf):
 # Return predicted sentiments (e.g. 'Neutral', 'Positive') for the training set
 # as a 1d array (numpy.ndarray).
 
-
 def mnb_predict(df):
     tweets = df['OriginalTweet'].values
     sentiment = df['Sentiment'].astype('category')
+
     vectoriser = CountVectorizer(
         ngram_range=(1, 1),
         min_df=2,
         max_df=0.51,
         max_features=15000,
     )
+
     X_train = vectoriser.fit_transform(tweets)
-    # X_test = vectoriser.transform(sentiment)
     nb = MultinomialNB()
     nb.fit(X_train, sentiment)
     y = nb.predict(X_train)
