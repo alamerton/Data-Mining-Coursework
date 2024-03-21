@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
 # Part 2: Cluster Analysis
@@ -155,7 +154,7 @@ def scatter_plots(df):
             plt.savefig(f"Figure_{j}.pdf")
             plt.show()
 
-### Print statements to check outputs. TODO: remove before submitting
+# Print statements to check outputs. TODO: remove before submitting
 
 
 path = "data/wholesale_customers.csv"
