@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
@@ -64,7 +63,6 @@ def data_frame_without_missing_values(df):
 
 
 def one_hot_encoding(df):
-    # identify categorical columns (all but education num), used a fun way might not be best @TODO
     categorical_columns = list(
         df.loc[:, df.columns != 'education-num'].columns)
     encoded_columns_df = pd.get_dummies(df, columns=categorical_columns)
@@ -100,52 +98,3 @@ def dt_predict(X_train, y_train):
 def dt_error_rate(y_pred, y_true):
     accuracy = accuracy_score(y_true, y_pred)
     return 1 - accuracy
-
-# Print statements to check outputs. TODO: remove before submitting
-
-
-path = "data/adult.csv"
-
-df = read_csv_1(path)
-
-print(f"1. Load the data set: {df.shape}")
-
-print(f"a) Compute number of instances: {num_rows(df)}")
-
-print(f"b) Compute list with attribute names: \n{column_names(df)}")
-
-print(
-    f"c) Compute the number of missing attribute values: {missing_values(df)}")
-
-print(
-    f"d) Return a list with the columns names containing at least one missing value in the pandas dataframe df: {columns_with_missing_values(df)}")
-
-print(
-    f"e) Return the percentage of instances corresponding to persons whose education level is Bachelors or Masters: {bachelors_masters_percentage(df)}%")
-
-no_missing_values_df = data_frame_without_missing_values(df)
-
-print(
-    f"2.1 Drop all instances with missing values: {no_missing_values_df.shape}")
-
-one_hot_df = one_hot_encoding(df)
-
-print(
-    f"2.2 Convert all input attributes to numeric using one-hot encoding: {one_hot_df.shape}")
-
-label_encoded_classes = label_encoding(df)
-
-print(
-    f"2.3 Convert the class values to numeric with label encoding: {label_encoded_classes.shape, label_encoded_classes}")
-
-y_pred = dt_predict(one_hot_df, label_encoded_classes)
-
-print(f"3.1 Build a decision tree: {y_pred}")
-
-error = dt_error_rate(y_pred, label_encoded_classes)
-
-print(f"3.2 Compute the training error rate of the resulting tree: {error}")
-
-# TODO: I think there's something I'm missing here where I've plugged the wrong values in or something.
-# Of course it always has an error rate of zero, it's predicting the same labels it was trained on.
-# What am I not seeing?
