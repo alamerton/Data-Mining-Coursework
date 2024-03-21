@@ -76,12 +76,8 @@ def remove_stop_words(tdf):
 	else:
 		raise Exception("GET request failed")
 	# remove stop words from original tweets column	
-	# bla= [tdf[''] for word in tdf['OriginalTweet'] if word not in stop_words and len(word) >= 3]
-	for word in tdf['OriginalTweet']:
-		if word in stop_words or len(word) <= 2:
-			tdf['OriginalTweet'][word].remove()
+	tdf['OriginalTweet'] = tdf['OriginalTweet'].apply(lambda tweet_text: ' '.join([word for word in tweet_text if word not in stop_words and len(word) > 2]))
 	return tdf
-	@here
 
 
 # Given dataframe tdf with the tweets tokenized, reduce each word in every tweet to its stem.
