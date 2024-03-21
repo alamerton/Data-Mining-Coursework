@@ -148,7 +148,13 @@ def mnb_predict(df):
         random_state=42
     )
 
-    vectoriser = CountVectorizer()
+    vectoriser = CountVectorizer(
+        ngram_range=(1, 2),
+        min_df=0.01,
+        max_df=0.95,
+        max_features=5000,
+    )
+
     X_train = vectoriser.fit_transform(documents_train)
     X_test = vectoriser.transform(documents_test)
 
