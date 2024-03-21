@@ -127,31 +127,22 @@ def stemming(tdf):
 # Return predicted sentiments (e.g. 'Neutral', 'Positive') for the training set
 # as a 1d array (numpy.ndarray).
 
+
 def mnb_predict(df):
-
-    tweets = df['OriginalTweet'].values 
-    sentiment = df['Sentiment'].values
-
-    print(sentiment)
-    print(f"tweets: {tweets}, sentiment: {sentiment}")
-
-
+    tweets = df['OriginalTweet'].values
+    sentiment = df['Sentiment'].astype('category')
     vectoriser = CountVectorizer(
         ngram_range=(1, 1),
-        min_df=0.01,
-        max_df=0.95,
-        max_features=1500,
-        # stop_words='english',
-        # token_pattern=r'\w{2,}',
-        strip_accents='ascii',
-        lowercase=True)
-
+        min_df=2,
+        max_df=0.51,
+        max_features=15000,
+    )
     X_train = vectoriser.fit_transform(tweets)
-    X_test = vectoriser.transform(sentiment)
-
+    # X_test = vectoriser.transform(sentiment)
     nb = MultinomialNB()
-    nb.fit(X_train, X_test)
-    return nb.predict(X_test)
+    nb.fit(X_train, sentiment)
+    y = nb.predict(X_train)
+    return y
 
 
 # Given a 1d array (numpy.ndarray) y_pred with predicted labels (e.g. 'Neutral', 'Positive')
@@ -188,8 +179,8 @@ labels = mnb_predict(df)
 
 # get a y_true
 
-tweets = df['OriginalTweet'].values
-sentiment = df['Sentiment'].values
+# tweets = df['OriginalTweet'].values
+sentiment = df['Sentiment']
 
 # _, _, _, y_true = train_test_split(
 #     tweets,
